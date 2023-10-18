@@ -2,14 +2,25 @@ import processing.core.PApplet;
 
 public class Game extends PApplet {
     // TODO: declare game variables
-
+    Ball b;
+    Paddle paddle1;
+    Paddle paddle2;
+    PowerUp powerup;
+    Boolean powerUpExists;
     public void settings() {
         size(800, 800);   // set the window size
-
     }
 
     public void setup() {
         // TODO: initialize game variables
+        powerUpExists = false;
+        paddle1 = new Paddle(350,20);
+        paddle2 = new Paddle(350,750);
+        b = new Ball(400,400);
+        int pointsPlayer1;
+        int pointsPlayer2;
+
+
     }
 
     /***
