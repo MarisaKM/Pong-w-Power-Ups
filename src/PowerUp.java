@@ -17,19 +17,23 @@ public class PowerUp {
     }
 
     public boolean colliding(Ball other) {
-        return this.getRadius() + other.getRadius() <= distance(this.getX(), this.getY(), other.getX(), other.getY());
+        int sumRadius = (this.getRadius() + other.getRadius());
+        double d = distance(this.getX(), this.getY(), other.getX(), other.getY());
+        System.out.println(sumRadius);
+        return sumRadius >= d;
     }
 
     public void collision(Ball b) {
         if (colliding(b)) {
+            this.x = 9999;
             if (powerUpType == "ballSize") {
-                ballSize();
+                ballSize(b);
             }
         }
     }
 
-    private void ballSize() {
-
+    private void ballSize(Ball b) {
+        b.setRadius((int)(Math.random()*35)+5);
     }
 
     public int getX() {
@@ -47,6 +51,6 @@ public class PowerUp {
     private double distance(float x1, float y1, float x2, float y2) {
         float dx = x1-x2;
         float dy = y1-y2;
-        return dx/dy;
+        return Math.sqrt(dx*dx+dy*dy);
     }
 }
