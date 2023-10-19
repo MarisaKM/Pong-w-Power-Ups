@@ -58,6 +58,12 @@ public class Game extends PApplet {
         if (this.keyCode == RIGHT) {
             paddle1.moveRight();
         }
+        if (this.key == 'a') {
+            paddle2.moveLeft();
+        }
+        if (this.key == 'd') {
+            paddle2.moveRight();
+        }
     }
     public static void main(String[] args) {
         PApplet.main("Game");

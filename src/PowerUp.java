@@ -19,7 +19,6 @@ public class PowerUp {
     public boolean colliding(Ball other) {
         int sumRadius = (this.getRadius() + other.getRadius());
         double d = distance(this.getX(), this.getY(), other.getX(), other.getY());
-        System.out.println(sumRadius);
         return sumRadius >= d;
     }
 
