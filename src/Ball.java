@@ -13,7 +13,7 @@ public class Ball {
         this.y = y;
         radius = 10;
         speed = 5;
-        xChange = 0;
+        xChange = Math.random()-0.5;
         yChange = 1;
         ignore = 0;
     }
@@ -46,14 +46,14 @@ public class Ball {
             if (this.x >= p.getX() && this.x <= (p.getX() + p.getLength())) {
                 System.out.println("hit bottom paddle");
                 speed = -1 * speed;
-                xChange = Math.random()-0.5;
+                xChange = xChange * -1;
             }
         }
         else if (Math.abs((this.y - radius * 2) - (p.getY())) <= 5) {
             if (this.x >= p.getX() && this.x <= (p.getX() + p.getLength())) {
                 System.out.println("hit top paddle");
                 speed = -1 * speed;
-                xChange = Math.random()-0.5;
+                xChange = xChange * -1;
             }
         }
         else if ((this.x - radius * 2) <= 0 || (this.x + radius * 2) >= 800) {

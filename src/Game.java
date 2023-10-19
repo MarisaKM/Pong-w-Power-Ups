@@ -16,7 +16,7 @@ public class Game extends PApplet {
         powerUpExists = false;
         paddle1 = new Paddle(350,20);
         paddle2 = new Paddle(350,750);
-        b = new Ball(400,400);
+        b = new Ball((int)(Math.random()*800),(int)(Math.random()*800));
         int pointsPlayer1;
         int pointsPlayer2;
 
