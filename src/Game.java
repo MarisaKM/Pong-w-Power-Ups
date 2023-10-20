@@ -16,7 +16,7 @@ public class Game extends PApplet {
         powerUpExists = false;
         paddle1 = new Paddle(350,20);
         paddle2 = new Paddle(350,750);
-        b = new Ball(400,400);
+        b = new Ball((int)(Math.random()*800),(int)(Math.random()*800));
         int pointsPlayer1;
         int pointsPlayer2;
 
@@ -29,12 +29,42 @@ public class Game extends PApplet {
      */
     public void draw() {
         background(255);    // paint screen white
-        fill(0,255,0);          // load green paint color
+        fill(255,0,0);          // load green paint color
+        if ((int)(Math.random()*500) == 1) {
+            powerup = new PowerUp(400, (int) (Math.random()*800), 20);
+            powerup.draw(this);
+            powerUpExists = true;
+            powerup.collision(b);
+        }
+        else if (powerUpExists) {
+            powerup.draw(this);
+            powerup.collision(b);
+        }
+        b.draw(this);
+        paddle1.draw(this);
+        paddle2.draw(this);
+        b.collision(paddle1);
+        b.collision(paddle2);
+        /**
         ellipse(mouseX, mouseY, 60, 60);  // draw circle at mouse loc
         ellipse(mouseX - 80, mouseY, 60, 60);  // draw circle at mouse loc
         ellipse(mouseX + 80, mouseY, 60, 60);  // draw circle at mouse loc
+         **/
     }
-
+    public void keyPressed() {
+        if (this.keyCode == LEFT) {
+            paddle1.moveLeft();
+        }
+        if (this.keyCode == RIGHT) {
+            paddle1.moveRight();
+        }
+        if (this.key == 'a') {
+            paddle2.moveLeft();
+        }
+        if (this.key == 'd') {
+            paddle2.moveRight();
+        }
+    }
     public static void main(String[] args) {
         PApplet.main("Game");
     }
