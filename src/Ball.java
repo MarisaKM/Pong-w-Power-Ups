@@ -8,6 +8,7 @@ public class Ball {
     private double xChange;
     private int yChange;
     private int ignore;
+    int score;
     public Ball(int x, int y) {
         this.x = x;
         this.y = y;
@@ -16,6 +17,7 @@ public class Ball {
         xChange = Math.random()-0.5;
         yChange = 1;
         ignore = 0;
+        score = 0;
     }
     public void setSpeed(double speed) {
         if (speed > 0) this.speed = speed;
@@ -41,6 +43,19 @@ public class Ball {
         window.fill(255, 0, 0);
         window.ellipse(x,y, radius*2, radius*2);
     }
+
+    public boolean scorePoint(Paddle p){
+        if(this.y < p.getY()){
+            return true;
+        }
+        return false;
+    }
+    /*public boolean scorePointPlayer2(Paddle p){
+        if(this.y > p.getY() + p.getWidth()) {
+            return true;
+        }
+        return false;
+    }*/
     public void collision(Paddle p ){
         if (Math.abs((this.y + radius * 2) - (p.getY() + p.getWidth())) <= 5) {
             if (this.x >= p.getX() && this.x <= (p.getX() + p.getLength())) {
