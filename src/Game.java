@@ -9,8 +9,6 @@ public class Game extends PApplet {
     Boolean powerUpExists;
     int pointsPlayer1;
     int pointsPlayer2;
-    boolean hasScored;
-    boolean ballPresent;
     public void settings() {
         size(800, 800);   // set the window size
     }
@@ -20,11 +18,9 @@ public class Game extends PApplet {
         powerUpExists = false;
         paddle1 = new Paddle(325,20);
         paddle2 = new Paddle(325,750);
-        b = new Ball((int)(Math.random()*800),(int)(Math.random()*800));
+        b = new Ball(400,400);
         pointsPlayer1 = 0;
         pointsPlayer2 = 0;
-        hasScored = false;
-        ballPresent = true;
     }
 
     /***
@@ -38,7 +34,7 @@ public class Game extends PApplet {
         textSize(50);
         text(" " + pointsPlayer1, 350, 350);
         text(" " + pointsPlayer2, 350, 500);
-        fill(255,0,0);          // load green paint color
+        fill(255,0,0);          // load red paint color
         if ((int)(Math.random()*500) == 1) {
             powerup = new PowerUp(400, (int) (Math.random()*800), 20);
             powerup.draw(this);
@@ -49,11 +45,13 @@ public class Game extends PApplet {
             powerup.draw(this);
             powerup.collision(b);
         }
-        if(b.scorePoint(paddle1)){
-            ballPresent = false;
+        if(b.scorePoint1()){
+            pointsPlayer1++;
+            b.reset();
         }
-        if(ballPresent == false){
-
+        if(b.scorePoint2()){
+            pointsPlayer2++;
+            b.reset();
         }
         b.draw(this);
         paddle1.draw(this);
@@ -66,13 +64,6 @@ public class Game extends PApplet {
         ellipse(mouseX - 80, mouseY, 60, 60);  // draw circle at mouse loc
         ellipse(mouseX + 80, mouseY, 60, 60);  // draw circle at mouse loc
          **/
-    }
-
-    public void addScore1(){
-        pointsPlayer1++;
-    }
-    public void addScore2(){
-        pointsPlayer2++;
     }
     public void keyPressed() {
         if (this.keyCode == LEFT) {
