@@ -37,6 +37,8 @@ public class Ball {
     public int getY() {
         return y;
     }
+    public void setX(int x){this.x = x;}
+    public void setY(int y){this.y = y;}
     //check if ball hits paddle/wall or gets past paddle
 
     public void draw(PApplet window){

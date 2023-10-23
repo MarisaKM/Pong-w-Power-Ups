@@ -9,6 +9,7 @@ public class Game extends PApplet {
     Boolean powerUpExists;
     int pointsPlayer1;
     int pointsPlayer2;
+    boolean win;
     public void settings() {
         size(800, 800);   // set the window size
     }
@@ -21,6 +22,7 @@ public class Game extends PApplet {
         b = new Ball(400,400);
         pointsPlayer1 = 0;
         pointsPlayer2 = 0;
+        win = false;
     }
 
     /***
@@ -58,6 +60,19 @@ public class Game extends PApplet {
         paddle2.draw(this);
         b.collision(paddle1);
         b.collision(paddle2);
+        if(pointsPlayer1 == 15){
+            background(0);
+            text("Game Over!", 280, 400);
+            text("player 1 wins", 260, 450);
+            b.setX(400);
+            b.setY(400);
+        } else if(pointsPlayer2 == 15){
+            background(0);
+            text("Game Over!", 280, 400);
+            text("player 2 wins", 260, 450);
+            b.setY(400);
+            b.setX(400);
+        }
 
         /**
         ellipse(mouseX, mouseY, 60, 60);  // draw circle at mouse loc
@@ -65,6 +80,10 @@ public class Game extends PApplet {
         ellipse(mouseX + 80, mouseY, 60, 60);  // draw circle at mouse loc
          **/
     }
+    public void keyReleased(){
+
+    }
+
     public void keyPressed() {
         if (this.keyCode == LEFT) {
             paddle1.moveLeft();
