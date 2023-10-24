@@ -27,13 +27,13 @@ public class Paddle {
     public void moveLeft() {
         x -= speed;
         if (wallCollision()) {
-            x += speed;
+            x = 0;
         }
     }
     public void moveRight() {
         x += speed;
         if (wallCollision()) {
-            x -= speed;
+            x = 800 - this.length;
         }
     }
 

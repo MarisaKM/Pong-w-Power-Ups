@@ -16,7 +16,7 @@ public class Game extends PApplet {
         powerUpExists = false;
         paddle1 = new Paddle(350,20);
         paddle2 = new Paddle(350,750);
-        b = new Ball((int)(Math.random()*800),(int)(Math.random()*800));
+        b = new Ball((int)(Math.random()*800),400);
         int pointsPlayer1;
         int pointsPlayer2;
 
@@ -63,6 +63,9 @@ public class Game extends PApplet {
         }
         if (this.key == 'd') {
             paddle2.moveRight();
+        }
+        if (this.key == 'r') {
+            setup();
         }
     }
     public static void main(String[] args) {
