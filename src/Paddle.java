@@ -9,7 +9,7 @@ public class Paddle {
         this.y = y;
         this.length = 100;
         this.width = 20;
-        speed = 25;
+        speed = 45;
     }
 
     public int getY() {
