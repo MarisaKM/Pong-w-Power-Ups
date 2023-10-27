@@ -30,6 +30,7 @@ public class Paddle {
             x = 0;
         }
     }
+
     public void moveRight() {
         x += speed;
         if (wallCollision()) {

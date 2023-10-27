@@ -8,8 +8,9 @@ public class Ball {
     private double xChange;
     private int yChange;
     private int ignore;
-    int score;
-    int direction;
+    private int score;
+    private int direction;
+    private Boolean p1Collision, p2Collision;
     public Ball(int x, int y) {
         this.x = x;
         this.y = y;
@@ -20,6 +21,8 @@ public class Ball {
         ignore = 0;
         score = 0;
         direction = (int)(Math.random()*2);
+        p1Collision = false;
+        p2Collision = false;
     }
     public void setSpeed(double speed) {
         if (speed > 0) this.speed = speed;
@@ -73,12 +76,23 @@ public class Ball {
         x = (int)(Math.random()*400+200);
         y = (int)(Math.random()*400+200);
     }
+    public int lastPaddle(){
+        if(p1Collision){
+            return 1;
+        }
+        if(p2Collision){
+            return 2;
+        }
+        return 0;
+    }
+
     public void collision(Paddle p ){
         if (Math.abs((this.y + radius * 2) - (p.getY() + p.getWidth())) <= 5) {
             if (this.x >= p.getX() && this.x <= (p.getX() + p.getLength())) {
                 System.out.println("hit bottom paddle");
                 speed = -1 * speed;
                 xChange = xChange * -1;
+                p1Collision = true;
             }
         }
         else if (Math.abs((this.y - radius * 2) - (p.getY())) <= 5) {
@@ -86,6 +100,7 @@ public class Ball {
                 System.out.println("hit top paddle");
                 speed = -1 * speed;
                 xChange = xChange * -1;
+                p2Collision = true;
             }
         }
         else if ((this.x - radius * 2) <= 0 || (this.x + radius * 2) >= 800) {

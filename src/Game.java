@@ -10,12 +10,12 @@ public class Game extends PApplet {
     int pointsPlayer1;
     int pointsPlayer2;
     boolean win;
+    int powerUpTimer;
     public void settings() {
         size(800, 800);   // set the window size
     }
 
     public void setup() {
-        // TODO: initialize game variables
         powerUpExists = false;
         paddle1 = new Paddle(325,20);
         paddle2 = new Paddle(325,750);
@@ -23,12 +23,9 @@ public class Game extends PApplet {
         pointsPlayer1 = 0;
         pointsPlayer2 = 0;
         win = false;
+        powerUpTimer = 90;
     }
 
-    /***
-     * Draws each frame to the screen.  Runs automatically in a loop at frameRate frames a second.
-     * tick each object (have it update itself), and draw each object
-     */
     public void draw() {
         background(255);// paint screen white
         fill(0);
@@ -43,6 +40,7 @@ public class Game extends PApplet {
             powerUpExists = true;
             powerup.collision(b);
         }
+
         else if (powerUpExists) {
             powerup.draw(this);
             powerup.collision(b);
@@ -74,11 +72,6 @@ public class Game extends PApplet {
             b.setX(400);
         }
 
-        /**
-        ellipse(mouseX, mouseY, 60, 60);  // draw circle at mouse loc
-        ellipse(mouseX - 80, mouseY, 60, 60);  // draw circle at mouse loc
-        ellipse(mouseX + 80, mouseY, 60, 60);  // draw circle at mouse loc
-         **/
     }
     public void keyReleased(){
 
