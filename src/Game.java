@@ -38,7 +38,7 @@ public class Game extends PApplet {
         text(" " + pointsPlayer2, 350, 500);
         fill(255,0,0);          // load red paint color
         if ((int)(Math.random()*500) == 1) {
-            powerup = new PowerUp(400, (int) (Math.random()*800), 20);
+            powerup = new PowerUp((int)(Math.random()*800), (int) (Math.random()*800), 20);
             powerup.draw(this);
             powerUpExists = true;
             powerup.collision(b);
