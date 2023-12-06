@@ -1,14 +1,20 @@
 import processing.core.PApplet;
 
+import java.util.Timer;
+
 public class PowerUp {
     private int x,y,radius;
     private String powerUpType;
+    Paddle p1;
+    Paddle p2;
     public PowerUp(int x, int y, int radius) {
         this.x = x;
         this.y = y;
         this.radius = radius;
-        String[] types = {"ballSize"};
+        String[] types = {"ballSize", "paddleSize", "doublePoints"};
         powerUpType = types[(int)(Math.random()*types.length)];
+        p1 = new Paddle(325, 20);
+        p2 = new Paddle(325, 750);
     }
 
     public void draw(PApplet window){
@@ -25,8 +31,16 @@ public class PowerUp {
     public void collision(Ball b) {
         if (colliding(b)) {
             this.x = 9999;
-            if (powerUpType == "ballSize") {
+            if (powerUpType.equals("ballSize")) {
                 ballSize(b);
+            }
+            if(powerUpType.equals("paddleSize")){
+                if(b.lastPaddle() == 1){
+                    paddleSize(p1);
+                }
+                else if(b.lastPaddle() == 2){
+                    paddleSize(p2);
+                }
             }
         }
     }
@@ -34,6 +48,8 @@ public class PowerUp {
     private void ballSize(Ball b) {
         b.setRadius((int)(Math.random()*35)+5);
     }
+    private void paddleSize(Paddle p){p.setLength((int)(Math.random()*400+100));}
+    private void doublePoints(){}
 
     public int getX() {
         return x;
