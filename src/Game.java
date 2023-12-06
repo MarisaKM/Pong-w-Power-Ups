@@ -75,11 +75,11 @@ public class Game extends PApplet {
             b.collision(paddle1);
             b.collision(paddle2);
         }
-        if(pointsPlayer1 == 1 || pointsPlayer2 == 1){
+        if(pointsPlayer1 == 15 || pointsPlayer2 == 15){
             gameOver = true;
             background(0);
             text("Game Over!", 280, 400);
-            if (pointsPlayer1 == 1) {
+            if (pointsPlayer1 == 15) {
                 text("player 1 wins", 260, 450);
             }
             else {
