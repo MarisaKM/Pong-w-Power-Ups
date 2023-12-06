@@ -39,47 +39,47 @@ public class Game extends PApplet {
     }
 
     public void draw() {
-        background(255);// paint screen white
-        fill(0);
-        line(0, 400, 800, 400);
         textSize(50);
-        text(" " + pointsPlayer1, 350, 350);
-        text(" " + pointsPlayer2, 350, 500);
-        fill(255,0,0);          // load red paint color
-        if ((int)(Math.random()*500) == 1) {
-            powerup = new PowerUp((int)(Math.random()*800), (int) (Math.random()*800), 20);
-            powerup.draw(this);
-            System.out.println("Powerup type: " + powerup.getPowerUpType());
-            powerUpExists = true;
-            if (powerup.collision(b)) {
-                powerUpExists = false;
+        if (!gameOver) {
+            background(255);// paint screen white
+            fill(0);
+            line(0, 400, 800, 400);
+            text(" " + pointsPlayer1, 350, 350);
+            text(" " + pointsPlayer2, 350, 500);
+            fill(255, 0, 0);          // load red paint color
+            if ((int) (Math.random() * 500) == 1) {
+                powerup = new PowerUp((int) (Math.random() * 800), (int) (Math.random() * 800), 20);
+                powerup.draw(this);
+                System.out.println("Powerup type: " + powerup.getPowerUpType());
+                powerUpExists = true;
+                if (powerup.collision(b)) {
+                    powerUpExists = false;
+                }
+            } else if (powerUpExists) {
+                powerup.draw(this);
+                if (powerup.collision(b)) {
+                    powerUpExists = false;
+                }
             }
-        }
-
-        else if (powerUpExists) {
-            powerup.draw(this);
-            if (powerup.collision(b)) {
-                powerUpExists = false;
+            if (b.scorePoint1()) {
+                pointsPlayer1++;
+                b.reset();
             }
+            if (b.scorePoint2()) {
+                pointsPlayer2++;
+                b.reset();
+            }
+            b.draw(this);
+            paddle1.draw(this);
+            paddle2.draw(this);
+            b.collision(paddle1);
+            b.collision(paddle2);
         }
-        if(b.scorePoint1()){
-            pointsPlayer1++;
-            b.reset();
-        }
-        if(b.scorePoint2()){
-            pointsPlayer2++;
-            b.reset();
-        }
-        b.draw(this);
-        paddle1.draw(this);
-        paddle2.draw(this);
-        b.collision(paddle1);
-        b.collision(paddle2);
-        if(pointsPlayer1 == 15 || pointsPlayer2 == 15){
+        if(pointsPlayer1 == 1 || pointsPlayer2 == 1){
             gameOver = true;
             background(0);
             text("Game Over!", 280, 400);
-            if (pointsPlayer1 == 15) {
+            if (pointsPlayer1 == 1) {
                 text("player 1 wins", 260, 450);
             }
             else {
@@ -87,6 +87,11 @@ public class Game extends PApplet {
             }
             b.setX(400);
             b.setY(400);
+            rect(300, 520, 200, 100);
+            fill(0, 255, 0);
+            textSize(35);
+            text("play again", 300, 600);
+            fill(255, 0, 0);
             if (!saved) {
                 try {
                     saveScores(pointsPlayer1, pointsPlayer2);
@@ -121,6 +126,12 @@ public class Game extends PApplet {
 
     public static String readFile(String fileName) throws IOException {
         return new String(Files.readAllBytes(Paths.get(fileName)));
+    }
+
+    public void mousePressed() {
+        if (this.mouseX > 300 && this.mouseX < 500 && this.mouseY > 470 && this.mouseY < 570) {
+            setup();
+        }
     }
 
     public void keyReleased(){
