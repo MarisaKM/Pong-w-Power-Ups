@@ -11,6 +11,7 @@ public class Ball {
     private int score;
     private int direction;
     private Boolean p1Collision, p2Collision;
+    private int lastPlayer;
     public Ball(int x, int y) {
         this.x = x;
         this.y = y;
@@ -23,6 +24,7 @@ public class Ball {
         direction = (int)(Math.random()*2);
         p1Collision = false;
         p2Collision = false;
+        lastPlayer = 0;
     }
     public void setSpeed(double speed) {
         if (speed > 0) this.speed = speed;
@@ -86,13 +88,15 @@ public class Ball {
         return 0;
     }
 
-    public void collision(Paddle p ){
+
+    public void collision(Paddle p){
         if (Math.abs((this.y + radius) - (p.getY() + p.getWidth())) <= p.getWidth()) {
             if ((this.x + radius) >= p.getX() && (this.x - radius) <= (p.getX() + p.getLength())) {
                 System.out.println("hit bottom paddle");
                 speed = -1 * speed;
                 xChange = xChange * -1;
                 p1Collision = true;
+                lastPlayer = 2;
             }
         }
         else if (Math.abs((this.y - radius) - (p.getY())) <= p.getWidth()) {
@@ -101,6 +105,7 @@ public class Ball {
                 speed = -1 * speed;
                 xChange = xChange * -1;
                 p2Collision = true;
+                lastPlayer = 1;
             }
         }
         else if ((this.x - radius) <= 0 || (this.x + radius) >= 800) {
@@ -110,5 +115,8 @@ public class Ball {
             }
         }
         ignore--;
+    }
+    public int getLastPlayer(){
+        return lastPlayer;
     }
 }
