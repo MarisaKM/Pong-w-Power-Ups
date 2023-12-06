@@ -87,23 +87,23 @@ public class Ball {
     }
 
     public void collision(Paddle p ){
-        if (Math.abs((this.y + radius * 2) - (p.getY() + p.getWidth())) <= 5) {
-            if (this.x >= p.getX() && this.x <= (p.getX() + p.getLength())) {
+        if (Math.abs((this.y + radius) - (p.getY() + p.getWidth())) <= p.getWidth()) {
+            if ((this.x + radius) >= p.getX() && (this.x - radius) <= (p.getX() + p.getLength())) {
                 System.out.println("hit bottom paddle");
                 speed = -1 * speed;
                 xChange = xChange * -1;
                 p1Collision = true;
             }
         }
-        else if (Math.abs((this.y - radius * 2) - (p.getY())) <= 5) {
-            if (this.x >= p.getX() && this.x <= (p.getX() + p.getLength())) {
+        else if (Math.abs((this.y - radius) - (p.getY())) <= p.getWidth()) {
+            if ((this.x + radius) >= p.getX() && (this.x - radius) <= (p.getX() + p.getLength())) {
                 System.out.println("hit top paddle");
                 speed = -1 * speed;
                 xChange = xChange * -1;
                 p2Collision = true;
             }
         }
-        else if ((this.x - radius * 2) <= 0 || (this.x + radius * 2) >= 800) {
+        else if ((this.x - radius) <= 0 || (this.x + radius) >= 800) {
             if (ignore <= 0) {
                 xChange = -1 * xChange;
                 ignore = 5;
