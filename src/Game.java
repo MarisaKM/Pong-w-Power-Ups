@@ -1,5 +1,12 @@
 import processing.core.PApplet;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+
 public class Game extends PApplet {
     // TODO: declare game variables
     Ball b;
@@ -11,6 +18,9 @@ public class Game extends PApplet {
     int pointsPlayer2;
     boolean win;
     int powerUpTimer;
+    boolean saved;
+    boolean gameOver;
+
     public void settings() {
         size(800, 800);   // set the window size
     }
@@ -24,6 +34,8 @@ public class Game extends PApplet {
         pointsPlayer2 = 0;
         win = false;
         powerUpTimer = 90;
+        saved = false;
+        gameOver = false;
     }
 
     public void draw() {
@@ -58,21 +70,54 @@ public class Game extends PApplet {
         paddle2.draw(this);
         b.collision(paddle1);
         b.collision(paddle2);
-        if(pointsPlayer1 == 15){
+        if(pointsPlayer1 == 15 || pointsPlayer2 == 15){
+            gameOver = true;
             background(0);
             text("Game Over!", 280, 400);
-            text("player 1 wins", 260, 450);
+            if (pointsPlayer1 == 15) {
+                text("player 1 wins", 260, 450);
+            }
+            else {
+                text("player 2 wins", 260, 450);
+            }
             b.setX(400);
             b.setY(400);
-        } else if(pointsPlayer2 == 15){
-            background(0);
-            text("Game Over!", 280, 400);
-            text("player 2 wins", 260, 450);
-            b.setY(400);
-            b.setX(400);
+            if (!saved) {
+                try {
+                    saveScores(pointsPlayer1, pointsPlayer2);
+                    saved = true;
+                } catch (IOException e) {
+                }
+            }
         }
 
     }
+
+    private void saveScores(int pointsPlayer1, int pointsPlayer2) throws IOException{
+        String saved = readFile("saveFile.txt");
+        saved += pointsPlayer1 + "," + pointsPlayer2 + "\n";
+        writeDataToFile("saveFile.txt", saved);
+    }
+
+    public static void writeDataToFile(String filePath, String data) throws IOException {
+        try (FileWriter f = new FileWriter(filePath);
+             BufferedWriter b = new BufferedWriter(f);
+             PrintWriter writer = new PrintWriter(b)) {
+
+
+            writer.println(data);
+
+
+        } catch (IOException error) {
+            System.err.println("There was a problem writing to the file: " + filePath);
+            error.printStackTrace();
+        }
+    }
+
+    public static String readFile(String fileName) throws IOException {
+        return new String(Files.readAllBytes(Paths.get(fileName)));
+    }
+
     public void keyReleased(){
 
     }
