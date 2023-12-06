@@ -49,13 +49,18 @@ public class Game extends PApplet {
         if ((int)(Math.random()*500) == 1) {
             powerup = new PowerUp((int)(Math.random()*800), (int) (Math.random()*800), 20);
             powerup.draw(this);
+            System.out.println("Powerup type: " + powerup.getPowerUpType());
             powerUpExists = true;
-            powerup.collision(b);
+            if (powerup.collision(b)) {
+                powerUpExists = false;
+            }
         }
 
         else if (powerUpExists) {
             powerup.draw(this);
-            powerup.collision(b);
+            if (powerup.collision(b)) {
+                powerUpExists = false;
+            }
         }
         if(b.scorePoint1()){
             pointsPlayer1++;

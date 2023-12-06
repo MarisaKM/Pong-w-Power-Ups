@@ -7,6 +7,11 @@ public class PowerUp {
     private String powerUpType;
     Paddle p1;
     Paddle p2;
+
+    public String getPowerUpType() {
+        return powerUpType;
+    }
+
     public PowerUp(int x, int y, int radius) {
         this.x = x;
         this.y = y;
@@ -28,9 +33,8 @@ public class PowerUp {
         return sumRadius >= d;
     }
 
-    public void collision(Ball b) {
+    public boolean collision(Ball b) {
         if (colliding(b)) {
-            this.x = 9999;
             if (powerUpType.equals("ballSize")) {
                 ballSize(b);
             }
@@ -42,7 +46,9 @@ public class PowerUp {
                     paddleSize(p2);
                 }
             }
+            return true;
         }
+        return false;
     }
 
     private void ballSize(Ball b) {
