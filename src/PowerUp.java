@@ -34,10 +34,9 @@ public class PowerUp {
         return sumRadius >= d;
     }
 
-    public void collision(Ball b) {
+    public boolean collision(Ball b) {
         if (colliding(b)) {
             System.out.println("hit something");
-            this.x = 9999;
             if (powerUpType.equals("ballSize")) {
                 ballSize(b);
             }
@@ -49,7 +48,9 @@ public class PowerUp {
                     paddleSize(p2);
                 }
             }
+            return true;
         }
+        return false;
     }
 
     private void ballSize(Ball b) {
