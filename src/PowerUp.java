@@ -7,6 +7,7 @@ public class PowerUp {
     private String powerUpType;
     Paddle p1;
     Paddle p2;
+    Ball b;
 
     public String getPowerUpType() {
         return powerUpType;
@@ -35,6 +36,7 @@ public class PowerUp {
 
     public boolean collision(Ball b) {
         if (colliding(b)) {
+            System.out.println("hit something");
             if (powerUpType.equals("ballSize")) {
                 ballSize(b);
             }

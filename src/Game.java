@@ -20,7 +20,6 @@ public class Game extends PApplet {
     int powerUpTimer;
     boolean saved;
     boolean gameOver;
-
     public void settings() {
         size(800, 800);   // set the window size
     }
@@ -100,9 +99,8 @@ public class Game extends PApplet {
                 }
             }
         }
-
     }
-
+    
     private void saveScores(int pointsPlayer1, int pointsPlayer2) throws IOException{
         String saved = readFile("saveFile.txt");
         saved += pointsPlayer1 + "," + pointsPlayer2 + "\n";
@@ -133,7 +131,6 @@ public class Game extends PApplet {
             setup();
         }
     }
-
     public void keyReleased(){
 
     }
