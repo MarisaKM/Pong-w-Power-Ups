@@ -20,6 +20,11 @@ public class Game extends PApplet {
     int powerUpTimer;
     boolean saved;
     boolean gameOver;
+    double pointMultiplier;
+    int multiplierFor;
+    String lastUser1KeyPressed;
+    String lastUser2KeyPressed;
+    private static int DEFAULT_TIMER = 5*60;
     public void settings() {
         size(800, 800);   // set the window size
     }
@@ -74,7 +79,7 @@ public class Game extends PApplet {
             b.collision(paddle1);
             b.collision(paddle2);
         }
-        if(pointsPlayer1 == 15 || pointsPlayer2 == 15){
+        if(pointsPlayer1 >= 15 || pointsPlayer2 >= 15){
             gameOver = true;
             background(0);
             text("Game Over!", 280, 400);
@@ -138,15 +143,19 @@ public class Game extends PApplet {
     public void keyPressed() {
         if (this.keyCode == LEFT) {
             paddle1.moveLeft();
+            lastUser1KeyPressed = "left";
         }
         if (this.keyCode == RIGHT) {
             paddle1.moveRight();
+            lastUser1KeyPressed = "right";
         }
         if (this.key == 'a') {
             paddle2.moveLeft();
+            lastUser2KeyPressed = "left";
         }
         if (this.key == 'd') {
             paddle2.moveRight();
+            lastUser2KeyPressed = "right";
         }
     }
     public static void main(String[] args) {

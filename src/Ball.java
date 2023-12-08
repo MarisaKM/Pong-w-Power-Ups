@@ -77,6 +77,11 @@ public class Ball {
     public void reset(){
         x = (int)(Math.random()*400+200);
         y = (int)(Math.random()*400+200);
+        xChange = 0; //Math.random()*1-0.5;
+        yChange = 1;
+        //while (Math.abs(xChange) < 0.1) {
+            //xChange = Math.random() *1 -0.5;
+       // }
     }
     public int lastPaddle(){
         if(p1Collision){

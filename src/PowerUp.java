@@ -17,7 +17,7 @@ public class PowerUp {
         this.x = x;
         this.y = y;
         this.radius = radius;
-        String[] types = {"ballSize", "paddleSize", "doublePoints"};
+        String[] types = {"ballSize", "paddleSize", "doublePoints", "paddleSpeed", "ballSpeed"};
         powerUpType = types[(int)(Math.random()*types.length)];
         p1 = new Paddle(325, 20);
         p2 = new Paddle(325, 750);
@@ -58,6 +58,8 @@ public class PowerUp {
     }
     private void paddleSize(Paddle p){p.setLength((int)(Math.random()*400+100));}
     private void doublePoints(){}
+    private void ballSpeed(Ball b){b.setSpeed((int)(Math.random()*5)+10);}
+    private void paddleSpeed(Paddle p){p.setSpeed((int)(Math.random()*50)+20);}
 
     public int getX() {
         return x;
