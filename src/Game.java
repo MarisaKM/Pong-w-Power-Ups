@@ -73,11 +73,12 @@ public class Game extends PApplet {
                 pointsPlayer2++;
                 b.reset();
             }
+            fill(0,0,255);
             b.draw(this);
             paddle1.draw(this);
             paddle2.draw(this);
-            b.collision(paddle1);
-            b.collision(paddle2);
+            b.collision(paddle1, lastUser1KeyPressed);
+            b.collision(paddle2, lastUser1KeyPressed);
         }
         if(pointsPlayer1 >= 15 || pointsPlayer2 >= 15){
             gameOver = true;

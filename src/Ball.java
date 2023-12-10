@@ -55,7 +55,7 @@ public class Ball {
             y+=speed*yChange;
             x+=speed*xChange;
         }
-        window.fill(255, 0, 0);
+        window.fill(16, 112, 39);
         window.ellipse(x,y, radius*2, radius*2);
     }
 
@@ -77,11 +77,11 @@ public class Ball {
     public void reset(){
         x = (int)(Math.random()*400+200);
         y = (int)(Math.random()*400+200);
-        xChange = 0; //Math.random()*1-0.5;
+        xChange = Math.random()*1-0.5;
         yChange = 1;
-        //while (Math.abs(xChange) < 0.1) {
-            //xChange = Math.random() *1 -0.5;
-       // }
+        while (Math.abs(xChange) < 0.2) {
+            xChange = Math.random() *1 -0.5;
+        }
     }
     public int lastPaddle(){
         if(p1Collision){
@@ -97,7 +97,8 @@ public class Ball {
     public void collision(Paddle p){
         if (Math.abs((this.y + radius) - (p.getY() + p.getWidth())) <= p.getWidth()) {
             if ((this.x + radius) >= p.getX() && (this.x - radius) <= (p.getX() + p.getLength())) {
-                System.out.println("hit bottom paddle");
+                System.out.println("hit top paddle");
+                System.out.println("dir of T: " + lastKeyPress);
                 speed = -1 * speed;
                 xChange = xChange * -1;
                 p1Collision = true;
@@ -106,9 +107,14 @@ public class Ball {
         }
         else if (Math.abs((this.y - radius) - (p.getY())) <= p.getWidth()) {
             if ((this.x + radius) >= p.getX() && (this.x - radius) <= (p.getX() + p.getLength())) {
-                System.out.println("hit top paddle");
+                System.out.println("hit bottom paddle");
+                System.out.println("dir of B: " + lastKeyPress);
+                System.out.println("xChange: " + xChange);
                 speed = -1 * speed;
-                xChange = xChange * -1;
+                if (lastKeyPress.equals(getBallDirection())) {
+                    xChange = -xChange;
+                }
+                //xChange = xChange * -1;
                 p2Collision = true;
                 lastPlayer = 1;
             }
@@ -120,6 +126,16 @@ public class Ball {
             }
         }
         ignore--;
+    }
+    public String getBallDirection(){
+        String dir = "";
+        if(xChange > 0){
+            dir = "right";
+        }
+        else if(xChange < 0){
+            dir = "left";
+        }
+        return dir;
     }
     public int getLastPlayer(){
         return lastPlayer;

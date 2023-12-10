@@ -24,7 +24,21 @@ public class PowerUp {
     }
 
     public void draw(PApplet window){
-        window.fill(255, 0, 0);
+        if(powerUpType.equals("ballSize")){
+            window.fill(28, 79, 28);
+        }
+        else if(powerUpType.equals("paddleSize")){
+            window.fill(160, 77, 88);
+        }
+        else if(powerUpType.equals("doublePoints")){
+            window.fill(37, 148, 186);
+        }
+        else if(powerUpType.equals("paddleSpeed")){
+            window.fill(151, 65, 186);
+        }
+        else if(powerUpType.equals("ballSpeed")){
+            window.fill(73, 127, 91);
+        }
         window.ellipse(x,y, radius*2, radius*2);
     }
 
