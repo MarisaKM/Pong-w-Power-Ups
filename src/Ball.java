@@ -12,11 +12,14 @@ public class Ball {
     private int direction;
     private Boolean p1Collision, p2Collision;
     private int lastPlayer;
+    public static int DEFAULT_RADIUS = 10;
+    public static int DEFAULT_SPEED = 5;
+
     public Ball(int x, int y) {
         this.x = x;
         this.y = y;
-        radius = 10;
-        speed = 5;
+        radius = DEFAULT_RADIUS;
+        speed = DEFAULT_SPEED;
         xChange = Math.random()*-0.5;
         yChange = 1;
         ignore = 0;
@@ -94,13 +97,17 @@ public class Ball {
     }
 
 
-    public void collision(Paddle p){
-        if (Math.abs((this.y + radius) - (p.getY() + p.getWidth())) <= p.getWidth()) {
+    public void collision(Paddle p, String lastKeyPress){
+
+        if ((Math.abs((this.y + radius) - (p.getY() + p.getWidth())) <= p.getWidth()) && this.y < 400) {
             if ((this.x + radius) >= p.getX() && (this.x - radius) <= (p.getX() + p.getLength())) {
                 System.out.println("hit top paddle");
                 System.out.println("dir of T: " + lastKeyPress);
                 speed = -1 * speed;
-                xChange = xChange * -1;
+                if (!lastKeyPress.equals(getBallDirection())){
+                    xChange = -xChange;
+                }
+                //xChange = xChange * -1;
                 p1Collision = true;
                 lastPlayer = 2;
             }
@@ -109,7 +116,6 @@ public class Ball {
             if ((this.x + radius) >= p.getX() && (this.x - radius) <= (p.getX() + p.getLength())) {
                 System.out.println("hit bottom paddle");
                 System.out.println("dir of B: " + lastKeyPress);
-                System.out.println("xChange: " + xChange);
                 speed = -1 * speed;
                 if (lastKeyPress.equals(getBallDirection())) {
                     xChange = -xChange;

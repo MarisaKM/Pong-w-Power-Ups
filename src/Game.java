@@ -1,4 +1,5 @@
 import processing.core.PApplet;
+import processing.core.PImage;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
@@ -18,6 +19,7 @@ public class Game extends PApplet {
     int pointsPlayer2;
     boolean win;
     int powerUpTimer;
+    boolean powerUpActive;
     boolean saved;
     boolean gameOver;
     double pointMultiplier;
@@ -37,40 +39,102 @@ public class Game extends PApplet {
         pointsPlayer1 = 0;
         pointsPlayer2 = 0;
         win = false;
-        powerUpTimer = 90;
+        powerUpTimer = DEFAULT_TIMER;
         saved = false;
         gameOver = false;
+        pointMultiplier = 1;
+        multiplierFor = 0;
+        powerUpActive = false;
+        lastUser1KeyPressed = "";
+        lastUser2KeyPressed = "";
+        homeScreen = true;
+        numKeys = "";
+        currX = 410;
+        winAmount = 0;
+        currStr = "Enter Win Amount: ";
+        update1 = 0;
+        update2 = 0;
     }
 
     public void draw() {
+        update1--;
+        update2--;
+        if (update1 <= 0) {
+            lastUser1KeyPressed = "";
+        }
+        if (update2 <= 0) {
+            lastUser2KeyPressed = "";
+        }
+        if (homeScreen) {
+            background(255);
+            fill(74, 151, 219);
+            //text("Pong with Power Ups", 100, 600);
+            fill(0);
+            textSize(35);
+            text(currStr, 200, 400);
+            return;
+        }
+        if (powerUpActive) {
+            powerUpTimer--;
+        }
+        if (powerUpTimer <= 0) {
+            powerUpActive = false;
+            System.out.println(powerup.getPowerUpType() + " has expired");
+            powerup.toDefaultValue();
+            if (powerup.getPowerUpType().equals("doublePoints")) {
+                pointMultiplier /= 2;
+            }
+            powerUpTimer = DEFAULT_TIMER;
+        }
         textSize(50);
-        if (!gameOver) {
+
+        if (!gameOver && !homeScreen) {
             background(255);// paint screen white
             fill(0);
             line(0, 400, 800, 400);
             text(" " + pointsPlayer1, 350, 350);
             text(" " + pointsPlayer2, 350, 500);
-            fill(255, 0, 0);          // load red paint color
-            if ((int) (Math.random() * 500) == 1) {
-                powerup = new PowerUp((int) (Math.random() * 800), (int) (Math.random() * 800), 20);
+            fill(255,0,0);  // load red paint color
+            if ((int) (Math.random() * 500) == 1 && powerUpActive == false) {
+                powerup = new PowerUp(this, (int) (Math.random() * 800), (int) (Math.random() * 800), 20);
                 powerup.draw(this);
                 System.out.println("Powerup type: " + powerup.getPowerUpType());
                 powerUpExists = true;
-                if (powerup.collision(b)) {
+                if (powerup.collision(b, paddle1, paddle2)) {
+                    powerUpActive = true;
                     powerUpExists = false;
+                    if (powerup.getPowerUpType().equals("doublePoints")){
+                        multiplierFor = b.lastPaddle();
+                        pointMultiplier *= 2;
+                    }
                 }
             } else if (powerUpExists) {
                 powerup.draw(this);
-                if (powerup.collision(b)) {
+                if (powerup.collision(b, paddle1, paddle2)) {
+                    powerUpActive = true;
                     powerUpExists = false;
+                    if (powerup.getPowerUpType().equals("doublePoints")){
+                        multiplierFor = b.lastPaddle();
+                        pointMultiplier *= 2;
+                    }
                 }
             }
             if (b.scorePoint1()) {
-                pointsPlayer1++;
+                if (multiplierFor == 1) {
+                    pointsPlayer1 += pointMultiplier;
+                }
+                else {
+                    pointsPlayer1++;
+                }
                 b.reset();
             }
             if (b.scorePoint2()) {
-                pointsPlayer2++;
+                if (multiplierFor == 2) {
+                    pointsPlayer2 += pointMultiplier;
+                }
+                else {
+                    pointsPlayer2++;
+                }
                 b.reset();
             }
             fill(0,0,255);
@@ -84,7 +148,7 @@ public class Game extends PApplet {
             gameOver = true;
             background(0);
             text("Game Over!", 280, 400);
-            if (pointsPlayer1 == 15) {
+            if (pointsPlayer1 >= 15) {
                 text("player 1 wins", 260, 450);
             }
             else {
@@ -106,7 +170,8 @@ public class Game extends PApplet {
             }
         }
     }
-    
+
+
     private void saveScores(int pointsPlayer1, int pointsPlayer2) throws IOException{
         String saved = readFile("saveFile.txt");
         saved += pointsPlayer1 + "," + pointsPlayer2 + "\n";
