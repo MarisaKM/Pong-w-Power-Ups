@@ -91,15 +91,15 @@ public class Game extends PApplet {
             background(255);
             fill(0);
             text("SETTINGS", 300, 100);
-            textSize(35);
+            textSize(30);
             text("Background: ", 25, 200);
-            rect(250, 165, 100, 50);
-            fill(76, 136, 247);
-            rect(375, 165, 100, 50);
-            fill(79, 122, 115);
-            rect(500, 165, 100, 50);
-            fill(210, 123, 237);
-            rect(625, 165, 100, 50);
+            text("Ball Color: ", 25, 320);
+            text("Paddle Color: ", 25, 440);
+            createBackgroundRectangles();
+            fill(255);
+            createBallRectangles();
+            fill(0);
+            createPaddleRectangles();
             fill(0);
             fill(255, 0, 0);
             textSize(20);
@@ -290,6 +290,34 @@ public class Game extends PApplet {
         background2 = false;
         background3 = false;
         background4 = false;
+    }
+    public void createBackgroundRectangles(){
+        fill(0);
+        rect(250, 165, 100, 50);
+        fill(76, 136, 247);
+        rect(375, 165, 100, 50);
+        fill(79, 122, 115);
+        rect(500, 165, 100, 50);
+        fill(210, 123, 237);
+        rect(625, 165, 100, 50);
+    }
+    public void createBallRectangles(){
+        rect(250, 280, 100, 50);
+        fill(0);
+        rect(375, 280, 100, 50);
+        fill(0);
+        rect(500, 280, 100, 50);
+        fill(0);
+        rect(625, 280, 100, 50);
+    }
+    public void createPaddleRectangles(){
+        rect(250, 400, 100, 50);
+        fill(0);
+        rect(375, 400, 100, 50);
+        fill(0);
+        rect(500, 400, 100, 50);
+        fill(0);
+        rect(625, 400, 100, 50);
     }
 
     public void keyPressed() {
