@@ -1,3 +1,4 @@
+import javafx.scene.layout.Background;
 import processing.core.PApplet;
 import processing.core.PImage;
 
@@ -54,6 +55,12 @@ public class Game extends PApplet {
         currStr = "Enter Win Amount: ";
         update1 = 0;
         update2 = 0;
+        settings = loadImage("settings-icon.png");
+        settingsOpen = false;
+        background1 = true;
+        background2 = false;
+        background3 = false;
+        background4 = false;
     }
 
     public void draw() {
@@ -68,11 +75,35 @@ public class Game extends PApplet {
         if (homeScreen) {
             background(255);
             fill(74, 151, 219);
-            //text("Pong with Power Ups", 100, 600);
+            textSize(50);
+            text("Pong with Power Ups", 150, 200);
             fill(0);
             textSize(35);
-            text(currStr, 200, 400);
+            text(currStr, 250, 400);
+            settings.resize(75, 75);
+            image(settings, 712, 12);
+            rect(300, 450, 200, 100);
+            fill(34, 200, 34);
+            text("START", 345, 515);
             return;
+        }
+        if (settingsOpen) {
+            background(255);
+            fill(0);
+            text("SETTINGS", 300, 100);
+            textSize(35);
+            text("Background: ", 25, 200);
+            rect(250, 165, 100, 50);
+            fill(76, 136, 247);
+            rect(375, 165, 100, 50);
+            fill(79, 122, 115);
+            rect(500, 165, 100, 50);
+            fill(210, 123, 237);
+            rect(625, 165, 100, 50);
+            fill(0);
+            fill(255, 0, 0);
+            textSize(20);
+            text("< BACK", 50, 50);
         }
         if (powerUpActive) {
             powerUpTimer--;
@@ -88,13 +119,23 @@ public class Game extends PApplet {
         }
         textSize(50);
 
-        if (!gameOver && !homeScreen) {
-            background(255);// paint screen white
-            fill(0);
+        if (!gameOver && !homeScreen && !settingsOpen) {
+            if (background1) {
+                background(0);
+            } else if (background2) {
+                background(76, 136, 247);
+            } else if (background3) {
+                background(79, 122, 115);
+            } else if (background4) {
+                background(210, 123, 237);
+            }
+            stroke(255);
             line(0, 400, 800, 400);
+            stroke(0);
+            fill(255);
             text(" " + pointsPlayer1, 350, 350);
             text(" " + pointsPlayer2, 350, 500);
-            fill(255,0,0);  // load red paint color
+            fill(255, 0, 0);  // load red paint color
             if ((int) (Math.random() * 500) == 1 && powerUpActive == false) {
                 powerup = new PowerUp(this, (int) (Math.random() * 800), (int) (Math.random() * 800), 20);
                 powerup.draw(this);
@@ -103,7 +144,7 @@ public class Game extends PApplet {
                 if (powerup.collision(b, paddle1, paddle2)) {
                     powerUpActive = true;
                     powerUpExists = false;
-                    if (powerup.getPowerUpType().equals("doublePoints")){
+                    if (powerup.getPowerUpType().equals("doublePoints")) {
                         multiplierFor = b.lastPaddle();
                         pointMultiplier *= 2;
                     }
@@ -113,7 +154,7 @@ public class Game extends PApplet {
                 if (powerup.collision(b, paddle1, paddle2)) {
                     powerUpActive = true;
                     powerUpExists = false;
-                    if (powerup.getPowerUpType().equals("doublePoints")){
+                    if (powerup.getPowerUpType().equals("doublePoints")) {
                         multiplierFor = b.lastPaddle();
                         pointMultiplier *= 2;
                     }
@@ -122,8 +163,7 @@ public class Game extends PApplet {
             if (b.scorePoint1()) {
                 if (multiplierFor == 1) {
                     pointsPlayer1 += pointMultiplier;
-                }
-                else {
+                } else {
                     pointsPlayer1++;
                 }
                 b.reset();
@@ -131,41 +171,42 @@ public class Game extends PApplet {
             if (b.scorePoint2()) {
                 if (multiplierFor == 2) {
                     pointsPlayer2 += pointMultiplier;
-                }
-                else {
+                } else {
                     pointsPlayer2++;
                 }
                 b.reset();
             }
-            fill(0,0,255);
+            fill(0, 0, 255);
             b.draw(this);
             paddle1.draw(this);
             paddle2.draw(this);
             b.collision(paddle1, lastUser1KeyPressed);
             b.collision(paddle2, lastUser1KeyPressed);
         }
-        if(pointsPlayer1 >= 15 || pointsPlayer2 >= 15){
-            gameOver = true;
-            background(0);
-            text("Game Over!", 280, 400);
-            if (pointsPlayer1 >= 15) {
-                text("player 1 wins", 260, 450);
-            }
-            else {
-                text("player 2 wins", 260, 450);
-            }
-            b.setX(400);
-            b.setY(400);
-            rect(300, 520, 200, 100);
-            fill(0, 255, 0);
-            textSize(35);
-            text("play again", 300, 600);
-            fill(255, 0, 0);
-            if (!saved) {
-                try {
-                    saveScores(pointsPlayer1, pointsPlayer2);
-                    saved = true;
-                } catch (IOException e) {
+        if (winAmount > 0) {
+            if (pointsPlayer1 >= winAmount || pointsPlayer2 >= winAmount) {
+                gameOver = true;
+                background(0);
+                text("Game Over!", 280, 400);
+                if (pointsPlayer1 >= 15) {
+                    text("player 1 wins", 260, 450);
+                } else {
+                    text("player 2 wins", 260, 450);
+                }
+                b.setX(400);
+                b.setY(400);
+                fill(255);
+                rect(300, 520, 200, 100);
+                fill(34, 200, 34);
+                textSize(35);
+                text("play again", 315, 580);
+                fill(255, 0, 0);
+                if (!saved) {
+                    try {
+                        saveScores(pointsPlayer1, pointsPlayer2);
+                        saved = true;
+                    } catch (IOException e) {
+                    }
                 }
             }
         }
@@ -201,9 +242,54 @@ public class Game extends PApplet {
         if (this.mouseX > 300 && this.mouseX < 500 && this.mouseY > 470 && this.mouseY < 570) {
             setup();
         }
+        if(homeScreen){
+            if(this.mouseX >= 712 && this.mouseX <= 787 && this.mouseY >= 12 && this.mouseY <= 87){
+                homeScreen = false;
+                settingsOpen = true;
+            }
+            else if(this.mouseX >= 300 && this.mouseX <= 500 && this.mouseY >= 450 && this.mouseY <= 550){
+                winAmount = Integer.parseInt(this.numKeys.trim()+1);
+                if(numKeys.equals("")){
+                    System.out.println("Invalid Amount --> set default 1");
+                }
+                homeScreen = false;
+            }
+        }
+        if(settingsOpen){
+            if(this.mouseX >= 50 && this.mouseX <= 130 && this.mouseY >= 32 && this.mouseY <= 52){
+                settingsOpen = false;
+                homeScreen = true;
+            }
+            if(this.mouseX >= 250 && this.mouseX <= 350 && this.mouseY >= 165 && this.mouseY <= 215){
+                setBackgroundsFalse();
+                background1 = true;
+                System.out.println("Background is black");
+            }
+            else if(this.mouseX >= 375 && this.mouseX <= 475 && this.mouseY >= 165 && this.mouseY <= 215){
+                setBackgroundsFalse();
+                background2 = true;
+                System.out.println("Background is blue");
+            }
+            else if(this.mouseX >= 500 && this.mouseX <= 600 && this.mouseY >= 165 && this.mouseY <= 215){
+                setBackgroundsFalse();
+                background3 = true;
+                System.out.println("Background is teal");
+            }
+            else if(this.mouseX >= 625 && this.mouseX <= 725 && this.mouseY >= 165 && this.mouseY <= 215){
+                setBackgroundsFalse();
+                background4 = true;
+                System.out.println("Background is purple");
+            }
+        }
     }
     public void keyReleased(){
 
+    }
+    public void setBackgroundsFalse(){
+        background1 = false;
+        background2 = false;
+        background3 = false;
+        background4 = false;
     }
 
     public void keyPressed() {

@@ -44,10 +44,10 @@ public class PowerUp {
         else if(powerUpType.equals("ballSpeed")){
             window.fill(73, 127, 91);
         }
-        //window.ellipse(x,y, radius*2, radius*2);
+        //window.ellipse(x,y + radius, radius*2, radius*2);
         window.imageMode(PConstants.CENTER);
-        window.image(this.powerUpIcon,x ,y + radius/3);
-        powerUpIcon.resize(radius*4, radius*4);
+        window.image(this.powerUpIcon,x ,y + radius);
+        powerUpIcon.resize(radius*2, radius*2);
     }
 
     public boolean colliding(Ball other) {
