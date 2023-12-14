@@ -28,6 +28,9 @@ public class Ball {
         p1Collision = false;
         p2Collision = false;
         lastPlayer = 0;
+        r = 255;
+        g = 255;
+        b = 255;
     }
     public void setSpeed(double speed) {
         if (speed > 0) this.speed = speed;
@@ -47,7 +50,11 @@ public class Ball {
     }
     public void setX(int x){this.x = x;}
     public void setY(int y){this.y = y;}
-    //check if ball hits paddle/wall or gets past paddle
+    public void setColor(PApplet window, int r, int g, int b){
+        this.r = r;
+        this.g = g;
+        this.b = b;
+    }
 
     public void draw(PApplet window){
         if(direction == 0) {
@@ -58,7 +65,7 @@ public class Ball {
             y+=speed*yChange;
             x+=speed*xChange;
         }
-        window.fill(16, 112, 39);
+        window.fill(r, g, b);
         window.ellipse(x,y, radius*2, radius*2);
     }
 
@@ -78,7 +85,7 @@ public class Ball {
     }
 
     public void reset(){
-        x = (int)(Math.random()*400+200);
+        x = 400;
         y = (int)(Math.random()*400+200);
         xChange = Math.random()*1-0.5;
         yChange = 1;
@@ -101,31 +108,35 @@ public class Ball {
 
         if ((Math.abs((this.y + radius) - (p.getY() + p.getWidth())) <= p.getWidth()) && this.y < 400) {
             if ((this.x + radius) >= p.getX() && (this.x - radius) <= (p.getX() + p.getLength())) {
-                System.out.println("hit top paddle");
-                System.out.println("dir of T: " + lastKeyPress);
+                //System.out.println("hit top paddle");
+                //System.out.println("dir of T: " + lastKeyPress);
                 speed = -1 * speed;
                 if (!lastKeyPress.equals(getBallDirection())){
                     xChange = -xChange;
                 }
-                //xChange = xChange * -1;
                 p1Collision = true;
                 lastPlayer = 2;
             }
         }
         else if (Math.abs((this.y - radius) - (p.getY())) <= p.getWidth()) {
             if ((this.x + radius) >= p.getX() && (this.x - radius) <= (p.getX() + p.getLength())) {
-                System.out.println("hit bottom paddle");
-                System.out.println("dir of B: " + lastKeyPress);
+                if(this.y == p.getLength()){
+                    xChange = xChange;
+                }
+                //System.out.println("hit bottom paddle");
+                //System.out.println("dir of B: " + lastKeyPress);
                 speed = -1 * speed;
                 if (lastKeyPress.equals(getBallDirection())) {
                     xChange = -xChange;
                 }
-                //xChange = xChange * -1;
                 p2Collision = true;
                 lastPlayer = 1;
             }
         }
         else if ((this.x - radius) <= 0 || (this.x + radius) >= 800) {
+            if(this.x == 0){
+                xChange = -xChange;
+            }
             if (ignore <= 0) {
                 xChange = -1 * xChange;
                 ignore = 5;

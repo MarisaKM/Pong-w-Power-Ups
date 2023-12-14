@@ -30,6 +30,11 @@ public class Paddle {
             x = 0;
         }
     }
+    public void setColor(PApplet window, int r, int g, int b){
+        this.r = r;
+        this.g = g;
+        this.b = b;
+    }
 
     public void moveRight() {
         x += speed;
@@ -50,7 +55,7 @@ public class Paddle {
     }
 
     public void draw(PApplet window){
-        window.fill(255, 0, 0);
+        window.fill(r, g, b);
         window.rect(x, y, length, width);
     }
 

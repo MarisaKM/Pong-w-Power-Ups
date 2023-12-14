@@ -12,21 +12,17 @@ import java.nio.file.Paths;
 public class Game extends PApplet {
     // TODO: declare game variables
     Ball b;
-    Paddle paddle1;
-    Paddle paddle2;
+    Paddle paddle1, paddle2;
     PowerUp powerup;
-    Boolean powerUpExists;
-    int pointsPlayer1;
-    int pointsPlayer2;
+    boolean powerUpExists;
+    int pointsPlayer1, pointsPlayer2;
     boolean win;
     int powerUpTimer;
     boolean powerUpActive;
     boolean saved;
-    boolean gameOver;
     double pointMultiplier;
     int multiplierFor;
-    String lastUser1KeyPressed;
-    String lastUser2KeyPressed;
+    String lastUser1KeyPressed, lastUser2KeyPressed;
     private static int DEFAULT_TIMER = 5*60;
     public void settings() {
         size(800, 800);   // set the window size
@@ -61,6 +57,14 @@ public class Game extends PApplet {
         background2 = false;
         background3 = false;
         background4 = false;
+        ballCol1 = true;
+        ballCol2 = false;
+        ballCol3 = false;
+        ballCol4 = false;
+        paddleCol1 = true;
+        paddleCol2 = false;
+        paddleCol3 = false;
+        paddleCol4 = false;
     }
 
     public void draw() {
@@ -98,12 +102,16 @@ public class Game extends PApplet {
             createBackgroundRectangles();
             fill(255);
             createBallRectangles();
-            fill(0);
+            fill(255);
             createPaddleRectangles();
             fill(0);
             fill(255, 0, 0);
             textSize(20);
             text("< BACK", 50, 50);
+            rect(300, 600, 300, 100);
+            textSize(35);
+            fill(34, 200, 34);
+            text("Load Game", 350, 665);
         }
         if (powerUpActive) {
             powerUpTimer--;
@@ -260,26 +268,87 @@ public class Game extends PApplet {
                 settingsOpen = false;
                 homeScreen = true;
             }
-            if(this.mouseX >= 250 && this.mouseX <= 350 && this.mouseY >= 165 && this.mouseY <= 215){
-                setBackgroundsFalse();
-                background1 = true;
-                System.out.println("Background is black");
+            if(this.mouseX >= 250 && this.mouseX <= 350){
+                 if(this.mouseY >= 165 && this.mouseY <= 215) {
+                     setBackgroundsFalse();
+                     background1 = true;
+                     System.out.println("Background is black");
+                 }
+                 if(this.mouseY >= 280 && this.mouseY <= 330){
+                     setBallColorsFalse();
+                     ballCol1 = true;
+                     b.setColor(this, 255, 255, 255);
+                     System.out.println("Ball color is white");
+                 }
+                 if(this.mouseY >= 400 && this.mouseY <= 450){
+                     setPaddleColorsFalse();
+                     paddleCol1 = true;
+                     paddle1.setColor(this, 255, 255, 255);
+                     paddle2.setColor(this, 255, 255, 255);
+                     System.out.println("Paddle color is white");
+                 }
             }
-            else if(this.mouseX >= 375 && this.mouseX <= 475 && this.mouseY >= 165 && this.mouseY <= 215){
-                setBackgroundsFalse();
-                background2 = true;
-                System.out.println("Background is blue");
+            if(this.mouseX >= 375 && this.mouseX <= 475){
+                if(this.mouseY >= 165 && this.mouseY <= 215) {
+                    setBackgroundsFalse();
+                    background2 = true;
+                    System.out.println("Background is blue");
+                }
+                if(this.mouseY >= 280 && this.mouseY <= 330){
+                    setBallColorsFalse();
+                    ballCol2 = true;
+                    b.setColor(this, 59, 175, 61);
+                    System.out.println("Ball color is green");
+                }
+                if(this.mouseY >= 400 && this.mouseY <= 450){
+                    setPaddleColorsFalse();
+                    paddleCol2 = true;
+                    paddle1.setColor(this, 59, 175, 61);
+                    paddle2.setColor(this, 59, 175, 61);
+                    System.out.println("Paddle color is green");
+                }
             }
-            else if(this.mouseX >= 500 && this.mouseX <= 600 && this.mouseY >= 165 && this.mouseY <= 215){
-                setBackgroundsFalse();
-                background3 = true;
-                System.out.println("Background is teal");
+            if(this.mouseX >= 500 && this.mouseX <= 600){
+                if(this.mouseY >= 165 && this.mouseY <= 215) {
+                    setBackgroundsFalse();
+                    background3 = true;
+                    System.out.println("Background is turquoise");
+                }
+                if(this.mouseY >= 280 && this.mouseY <= 330){
+                    setBallColorsFalse();
+                    ballCol3 = true;
+                    b.setColor(this, 79, 122, 115);
+                    System.out.println("Ball color is navy");
+                }
+                if(this.mouseY >= 400 && this.mouseY <= 450){
+                    setPaddleColorsFalse();
+                    paddleCol3 = true;
+                    paddle1.setColor(this, 79, 122, 115);
+                    paddle2.setColor(this, 79, 122, 115);
+                    System.out.println("Paddle color is navy");
+                }
             }
-            else if(this.mouseX >= 625 && this.mouseX <= 725 && this.mouseY >= 165 && this.mouseY <= 215){
-                setBackgroundsFalse();
-                background4 = true;
-                System.out.println("Background is purple");
+            if(this.mouseX >= 625 && this.mouseX <= 725){
+                if(this.mouseY >= 165 && this.mouseY <= 215) {
+                    setBackgroundsFalse();
+                    background4 = true;
+                    System.out.println("Background is purple");
+                }
+                if(this.mouseY >= 280 && this.mouseY <= 330){
+                    setBallColorsFalse();
+                    ballCol4 = true;
+                    b.setColor(this,210, 123, 237);
+                    System.out.println("Ball color is teal");
+                }
+                if(this.mouseY >= 400 && this.mouseY <= 450){
+                    setPaddleColorsFalse();
+                    paddleCol4 = true;
+                    paddle1.setColor(this, 210, 123, 237);
+                    paddle2.setColor(this, 210, 123, 237);
+                    System.out.println("Paddle color is teal");
+                }
             }
+
         }
     }
     public void keyReleased(){
@@ -290,6 +359,18 @@ public class Game extends PApplet {
         background2 = false;
         background3 = false;
         background4 = false;
+    }
+    public void setBallColorsFalse(){
+        ballCol1 = false;
+        ballCol2 = false;
+        ballCol3 = false;
+        ballCol4 = false;
+    }
+    public void setPaddleColorsFalse(){
+        paddleCol1 = false;
+        paddleCol2 = false;
+        paddleCol3 = false;
+        paddleCol4 = false;
     }
     public void createBackgroundRectangles(){
         fill(0);
@@ -303,20 +384,20 @@ public class Game extends PApplet {
     }
     public void createBallRectangles(){
         rect(250, 280, 100, 50);
-        fill(0);
+        fill(59, 175, 61);
         rect(375, 280, 100, 50);
-        fill(0);
+        fill(20, 18, 117);
         rect(500, 280, 100, 50);
-        fill(0);
+        fill(96, 224, 224);
         rect(625, 280, 100, 50);
     }
     public void createPaddleRectangles(){
         rect(250, 400, 100, 50);
-        fill(0);
+        fill(59, 175, 61);
         rect(375, 400, 100, 50);
-        fill(0);
+        fill(20, 18, 117);
         rect(500, 400, 100, 50);
-        fill(0);
+        fill(96, 224, 224);
         rect(625, 400, 100, 50);
     }
 

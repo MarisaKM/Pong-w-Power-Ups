@@ -46,8 +46,8 @@ public class PowerUp {
         }
         //window.ellipse(x,y + radius, radius*2, radius*2);
         window.imageMode(PConstants.CENTER);
-        window.image(this.powerUpIcon,x ,y + radius);
         powerUpIcon.resize(radius*2, radius*2);
+        window.image(this.powerUpIcon,x ,y + radius);
     }
 
     public boolean colliding(Ball other) {
