@@ -29,21 +29,6 @@ public class PowerUp {
     }
 
     public void draw(PApplet window){
-        if(powerUpType.equals("ballSize")){
-            window.fill(28, 79, 28);
-        }
-        else if(powerUpType.equals("paddleSize")){
-            window.fill(160, 77, 88);
-        }
-        else if(powerUpType.equals("doublePoints")){
-            window.fill(37, 148, 186);
-        }
-        else if(powerUpType.equals("paddleSpeed")){
-            window.fill(151, 65, 186);
-        }
-        else if(powerUpType.equals("ballSpeed")){
-            window.fill(73, 127, 91);
-        }
         //window.ellipse(x,y + radius, radius*2, radius*2);
         window.imageMode(PConstants.CENTER);
         powerUpIcon.resize(radius*2, radius*2);
@@ -62,7 +47,6 @@ public class PowerUp {
         this.p2 = p2;
         affectedPaddle = b.lastPaddle();
         if (colliding(b)) {
-            System.out.println("hit something");
             if (powerUpType.equals("ballSize")) {
                 ballSize(b);
             }
@@ -94,7 +78,6 @@ public class PowerUp {
         b.setRadius((int)(Math.random()*35)+5);
     }
     private void paddleSize(Paddle p){p.setLength((int)(Math.random()*400)+100);p.wallCollision();}
-    private void doublePoints(){}
     private void ballSpeed(Ball b){b.setSpeed((int)(Math.random()*5)+10);}
     private void paddleSpeed(Paddle p){p.setSpeed((int)(Math.random()*50)+20);}
 

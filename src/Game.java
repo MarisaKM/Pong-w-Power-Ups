@@ -14,6 +14,8 @@ public class Game extends PApplet {
     Ball b;
     Paddle paddle1, paddle2;
     PowerUp powerup;
+    Settings s;
+    homeScreen homeScreen;
     boolean powerUpExists;
     int pointsPlayer1, pointsPlayer2;
     boolean win;
@@ -44,14 +46,13 @@ public class Game extends PApplet {
         powerUpActive = false;
         lastUser1KeyPressed = "";
         lastUser2KeyPressed = "";
-        homeScreen = true;
+        homeScreenOpen = true;
         numKeys = "";
         currX = 410;
         winAmount = 0;
         currStr = "Enter Win Amount: ";
         update1 = 0;
         update2 = 0;
-        settings = loadImage("settings-icon.png");
         settingsOpen = false;
         background1 = true;
         background2 = false;
@@ -65,6 +66,8 @@ public class Game extends PApplet {
         paddleCol2 = false;
         paddleCol3 = false;
         paddleCol4 = false;
+        s = new Settings();
+        homeScreen = new homeScreen(this);
     }
 
     public void draw() {
@@ -76,42 +79,13 @@ public class Game extends PApplet {
         if (update2 <= 0) {
             lastUser2KeyPressed = "";
         }
-        if (homeScreen) {
-            background(255);
-            fill(74, 151, 219);
-            textSize(50);
-            text("Pong with Power Ups", 150, 200);
+        if (homeScreenOpen) {
+            homeScreen.draw(this);
             fill(0);
-            textSize(35);
             text(currStr, 250, 400);
-            settings.resize(75, 75);
-            image(settings, 712, 12);
-            rect(300, 450, 200, 100);
-            fill(34, 200, 34);
-            text("START", 345, 515);
-            return;
         }
         if (settingsOpen) {
-            background(255);
-            fill(0);
-            text("SETTINGS", 300, 100);
-            textSize(30);
-            text("Background: ", 25, 200);
-            text("Ball Color: ", 25, 320);
-            text("Paddle Color: ", 25, 440);
-            createBackgroundRectangles();
-            fill(255);
-            createBallRectangles();
-            fill(255);
-            createPaddleRectangles();
-            fill(0);
-            fill(255, 0, 0);
-            textSize(20);
-            text("< BACK", 50, 50);
-            rect(300, 600, 300, 100);
-            textSize(35);
-            fill(34, 200, 34);
-            text("Load Game", 350, 665);
+          s.draw(this);
         }
         if (powerUpActive) {
             powerUpTimer--;
@@ -127,7 +101,7 @@ public class Game extends PApplet {
         }
         textSize(50);
 
-        if (!gameOver && !homeScreen && !settingsOpen) {
+        if (!gameOver && !homeScreenOpen && !settingsOpen) {
             if (background1) {
                 background(0);
             } else if (background2) {
@@ -250,9 +224,9 @@ public class Game extends PApplet {
         if (this.mouseX > 300 && this.mouseX < 500 && this.mouseY > 470 && this.mouseY < 570) {
             setup();
         }
-        if(homeScreen){
+        if(homeScreenOpen){
             if(this.mouseX >= 712 && this.mouseX <= 787 && this.mouseY >= 12 && this.mouseY <= 87){
-                homeScreen = false;
+                homeScreenOpen = false;
                 settingsOpen = true;
             }
             else if(this.mouseX >= 300 && this.mouseX <= 500 && this.mouseY >= 450 && this.mouseY <= 550){
@@ -260,13 +234,13 @@ public class Game extends PApplet {
                 if(numKeys.equals("")){
                     System.out.println("Invalid Amount --> set default 1");
                 }
-                homeScreen = false;
+                homeScreenOpen = false;
             }
         }
         if(settingsOpen){
             if(this.mouseX >= 50 && this.mouseX <= 130 && this.mouseY >= 32 && this.mouseY <= 52){
                 settingsOpen = false;
-                homeScreen = true;
+                homeScreenOpen = true;
             }
             if(this.mouseX >= 250 && this.mouseX <= 350){
                  if(this.mouseY >= 165 && this.mouseY <= 215) {
@@ -371,34 +345,6 @@ public class Game extends PApplet {
         paddleCol2 = false;
         paddleCol3 = false;
         paddleCol4 = false;
-    }
-    public void createBackgroundRectangles(){
-        fill(0);
-        rect(250, 165, 100, 50);
-        fill(76, 136, 247);
-        rect(375, 165, 100, 50);
-        fill(79, 122, 115);
-        rect(500, 165, 100, 50);
-        fill(210, 123, 237);
-        rect(625, 165, 100, 50);
-    }
-    public void createBallRectangles(){
-        rect(250, 280, 100, 50);
-        fill(59, 175, 61);
-        rect(375, 280, 100, 50);
-        fill(20, 18, 117);
-        rect(500, 280, 100, 50);
-        fill(96, 224, 224);
-        rect(625, 280, 100, 50);
-    }
-    public void createPaddleRectangles(){
-        rect(250, 400, 100, 50);
-        fill(59, 175, 61);
-        rect(375, 400, 100, 50);
-        fill(20, 18, 117);
-        rect(500, 400, 100, 50);
-        fill(96, 224, 224);
-        rect(625, 400, 100, 50);
     }
 
     public void keyPressed() {
